@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test de Perfil Emprendedor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="w-full max-w-2xl p-6 bg-white shadow-2xl rounded-xl">
+    <h1 class="text-2xl font-bold text-center mb-6">Test de Perfil Emprendedor</h1>
+    <div id="quiz" class="space-y-6"></div>
+    <div class="flex justify-end mt-4">
+      <button id="nextBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Siguiente</button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="resultModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-8 rounded-xl shadow-xl max-w-lg text-center">
+      <h2 class="text-3xl font-bold mb-4">🎉 ¡Tu perfil emprendedor es:</h2>
+      <h3 id="resultTitle" class="text-xl font-semibold text-blue-700 mb-2"></h3>
+      <p id="resultDescription" class="text-gray-700"></p>
+      <button onclick="location.reload()" class="mt-6 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Volver a empezar</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      // Ancla Técnica/Funcional
+      { text: "Me siento realizado/a cuando soy reconocido/a por mis conocimientos técnicos.", anchor: "tecnica" },
+      { text: "Disfruto perfeccionando mis habilidades en un área específica, incluso si nadie lo nota.", anchor: "tecnica" },
+      { text: "Prefiero profundizar en lo que ya sé hacer bien antes que asumir responsabilidades fuera de mi especialidad.", anchor: "tecnica" },
+      { text: "La excelencia técnica es más importante para mí que liderar o delegar.", anchor: "tecnica" },
+      // Directiva
+      { text: "Me interesa asumir roles donde pueda coordinar a otras personas y tomar decisiones importantes.", anchor: "directiva" },
+      { text: "Me entusiasma la idea de construir y dirigir una organización propia.", anchor: "directiva" },
+      { text: "Disfruto viendo cómo mi visión se implementa a través del trabajo de un equipo.", anchor: "directiva" },
+      { text: "Prefiero liderar un proyecto completo que concentrarme en una sola tarea.", anchor: "directiva" },
+      // Autonomía
+      { text: "Me siento incómodo/a cuando tengo que seguir órdenes sin poder opinar.", anchor: "autonomia" },
+      { text: "La independencia personal es más importante que la estabilidad o el prestigio.", anchor: "autonomia" },
+      { text: "Aspiro a tener un estilo de vida donde yo decida cómo, cuándo y con quién trabajar.", anchor: "autonomia" },
+      { text: "Prefiero un trabajo solitario o independiente, antes que uno jerárquico o con supervisión constante.", anchor: "autonomia" },
+      // Seguridad
+      { text: "Antes de tomar decisiones importantes, necesito estar seguro/a de que no afectarán mi estabilidad.", anchor: "seguridad" },
+      { text: "Emprender me parece viable solo si tengo garantías de que funcionará.", anchor: "seguridad" },
+      { text: "Prefiero un ingreso fijo a uno variable, incluso si este último puede ser mayor.", anchor: "seguridad" },
+      { text: "Me gustaría emprender un negocio, pero solo si puedo mantener al mismo tiempo mi seguridad financiera.", anchor: "seguridad" },
+      // Servicio
+      { text: "Mi principal motivación para emprender sería mejorar la vida de otros.", anchor: "servicio" },
+      { text: "Me inspira trabajar por un propósito más grande que el beneficio económico.", anchor: "servicio" },
+      { text: "No me sentiría completo/a con un negocio que no tenga un impacto social o comunitario.", anchor: "servicio" },
+      { text: "Creo que los emprendimientos deben comprometerse activamente con el bienestar común.", anchor: "servicio" },
+      // Reto
+      { text: "Me atraen los proyectos que otros consideran difíciles o imposibles.", anchor: "reto" },
+      { text: "Me siento motivado/a cuando tengo que resolver problemas complejos.", anchor: "reto" },
+      { text: "Pierdo el interés si no hay obstáculos que superar.", anchor: "reto" },
+      { text: "Me encanta competir, incluso conmigo mismo/a, por lograr cosas que no creí posibles.", anchor: "reto" },
+      // Estilo de vida
+      { text: "Aspiro a un tipo de emprendimiento que me permita vivir en equilibrio.", anchor: "vida" },
+      { text: "No sacrificaría mi salud, familia o tiempo libre por el éxito profesional.", anchor: "vida" },
+      { text: "Quiero que mi negocio se adapte a mi vida, y no al revés.", anchor: "vida" },
+      { text: "Me interesa tener un trabajo que me permita disfrutar de mis pasatiempos y relaciones.", anchor: "vida" },
+      // Creatividad
+      { text: "Lo que más me entusiasma es tener ideas y convertirlas en realidad.", anchor: "creatividad" },
+      { text: "Siento una fuerte necesidad de crear algo único que me represente.", anchor: "creatividad" },
+      { text: "Emprender es, para mí, una forma de expresar quién soy.", anchor: "creatividad" },
+      { text: "Más que seguir caminos conocidos, prefiero inventar el mío desde cero.", anchor: "creatividad" }
+    ];
+
+    const profiles = {
+      tecnica: { title: "El Emprendedor Artesano", desc: "Buscas la excelencia y especialización en tu campo. Emprendes para aplicar tu conocimiento y ser reconocido por tu dominio técnico." },
+      directiva: { title: "El Fundador Visionario", desc: "Te apasiona liderar y ver crecer tus ideas. Eres estratega, constructor y cabeza de equipo." },
+      autonomia: { title: "El Autónomo Radical", desc: "Tu libertad es sagrada. Emprendes para vivir a tu ritmo, sin jefes ni estructuras rígidas." },
+      seguridad: { title: "El Emprendedor Precavido", desc: "Analítico y cauto, buscas emprender sin poner en riesgo tu estabilidad personal." },
+      servicio: { title: "El Emprendedor con Propósito", desc: "Tu vocación es el impacto. Emprendes para mejorar vidas y servir a una causa mayor." },
+      reto: { title: "El Emprendedor Aventurero", desc: "El desafío te enciende. Emprendes para probarte, competir y conquistar lo difícil." },
+      vida: { title: "El Emprendedor de Vida Plena", desc: "Buscas equilibrio. Emprendes para vivir mejor, no para vivir por el trabajo." },
+      creatividad: { title: "El Creador Imparable", desc: "Necesitas crear. Emprendes para inventar, innovar y expresar tu esencia en algo propio." }
+    };
+
+    let current = 0;
+    const answers = [];
+    const quizDiv = document.getElementById("quiz");
+
+    function renderQuestion() {
+      const q = questions[current];
+      quizDiv.innerHTML = `
+        <div>
+          <p class="text-lg font-semibold mb-4">${current + 1}. ${q.text}</p>
+          <input type="range" min="1" max="10" value="5" id="slider" class="w-full">
+          <div class="text-sm text-center mt-2">Valor: <span id="sliderValue">5</span></div>
+        </div>`;
+      document.getElementById("slider").oninput = e => {
+        document.getElementById("sliderValue").textContent = e.target.value;
+      };
+    }
+
+    document.getElementById("nextBtn").onclick = () => {
+      const value = parseInt(document.getElementById("slider").value);
+      answers.push({ anchor: questions[current].anchor, value });
+      current++;
+      if (current < questions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    };
+
+    function showResults() {
+      const scores = {};
+      answers.forEach(a => {
+        scores[a.anchor] = (scores[a.anchor] || 0) + a.value;
+      });
+      const topAnchor = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+      document.getElementById("resultTitle").textContent = profiles[topAnchor].title;
+      document.getElementById("resultDescription").textContent = profiles[topAnchor].desc;
+      document.getElementById("resultModal").classList.remove("hidden");
+    }
+
+    // Primer renderizado
+    renderQuestion();
+  </script>
+</body>
+</html>
