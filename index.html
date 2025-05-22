@@ -4,119 +4,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Test de anclas</title>
+  <title>Inicio | Test de Perfil Emprendedor</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/style.css" />
   <link rel="icon" href="assets/img/favicon.png" type="image/png" sizes="32x32">
 </head>
 
-<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
+<body
+  class="bg-gradient-to-br from-blue-100 to-purple-100 text-gray-800 min-h-screen flex items-center justify-center p-6">
 
-  <!-- Contenedor principal del test -->
-  <div class="w-full max-w-xl bg-white shadow-xl rounded-2xl p-6 sm:p-8 overflow-auto max-h-[90vh]">
+  <main class="bg-white rounded-2xl shadow-lg p-8 max-w-2xl w-full space-y-6 text-center">
 
-    <h1 class="text-2xl font-bold text-center mb-6">Test de Perfil Emprendedor</h1>
-    <div id="question-container" class="space-y-6"></div>
+    <h1 class="text-3xl font-bold text-blue-700">¡Bienvenidos al Test de Perfil Emprendedor!</h1>
 
-    <div class="flex justify-between mt-8">
-      <button id="prev-btn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer"
-        disabled>Anterior</button>
-      <button id="next-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Siguiente</button>
+    <p class="text-lg text-gray-700 leading-relaxed text-justify">
+      Este test ha sido diseñado para ayudarte a descubrir cuál es tu estilo natural al emprender,
+      basado en tus motivaciones más profundas y tus valores personales. Conocer tu perfil te permitirá tomar decisiones
+      más alineadas contigo.
+    </p>
+
+    <section class="bg-blue-50 p-4 rounded-lg text-left">
+      <h2 class="font-semibold text-blue-600 mb-2">🌟 Propósito del Test</h2>
+      <ul class="list-disc ml-5 space-y-2 text-gray-700">
+        <li>Identificar tus <strong>anclas de motivación</strong> en el mundo emprendedor.</li>
+        <li>Conocer qué tipo de <strong>proyecto o modelo de negocio</strong> se ajusta mejor a ti.</li>
+        <li>Ofrecerte una guía personalizada para potenciar tu camino emprendedor.</li>
+      </ul>
+    </section>
+
+    <section class="bg-yellow-50 p-4 rounded-lg text-left">
+      <h2 class="font-semibold text-yellow-600 mb-2">📝 Reglas para responder</h2>
+      <ul class="list-disc ml-5 space-y-2 text-gray-700">
+        <li>Responde con sinceridad. No hay respuestas correctas o incorrectas.</li>
+        <li>Piensa en lo que <strong>realmente te motiva</strong>, no en lo que “deberías” responder.</li>
+        <li>No tomes más de <strong>1 minuto por pregunta</strong>, confía en tu primera impresión.</li>
+      </ul>
+    </section>
+
+    <div class="mt-6">
+      <a href="index.html"
+        class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition">
+        Comenzar el Test
+      </a>
     </div>
-  </div>
-
-  <!-- Modal principal -->
-  <div id="result-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
-    <div id="modal-content"
-      class="bg-white p-6 rounded-xl shadow-2xl max-w-lg w-full text-center space-y-4 opacity-0 scale-95 transition-all duration-500 max-h-[90vh] overflow-auto">
-
-      <!-- CONTENIDO A EXPORTAR -->
-      <div id="pdf-content" class="bg-white p-6 rounded-xl shadow-md text-center mx-auto max-w-md">
-        <div id="result-icon" class="text-6xl animate-bounce-slow mb-2"></div>
-        <h2 id="result-title" class="text-2xl font-bold text-green-600">🎉 ¡Tu resultado!</h2>
-        <p id="result-description" class="text-gray-700 mt-1"></p>
-        <p id="result-phrase" class="text-gray-600 italic text-lg mt-2"></p>
-        <p id="result-alternativo" class="text-sm mt-4 text-gray-600 italic"></p>
-        <div id="result-guidance" class="text-left text-sm bg-gray-100 rounded-xl p-4 mt-4 space-y-2 text-gray-800">
-        </div>
-      </div>
-
-      <!-- BOTONES (NO SE INCLUYEN EN EL PDF) -->
-      <div class="mt-4 flex flex-col sm:flex-row justify-center items-center gap-2">
-        <button onclick="location.reload()"
-          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer">Volver a intentar</button>
-        <button id="download-pdf"
-          class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 cursor-pointer">Descargar resultado en
-          PDF</button>
-        <button id="ver-detalle" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 cursor-pointer">
-          Ver detalle de puntajes
-        </button>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal perfil alternativo -->
-  <div id="alt-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
-    <div id="alt-modal-content"
-      class="bg-white p-6 rounded-xl shadow-2xl max-w-lg w-full text-center opacity-0 scale-95 transition-all duration-500 max-h-[90vh] overflow-auto">
-      <div id="alt-result-icon" class="text-5xl mb-2"></div>
-      <h2 id="alt-result-title" class="text-xl font-bold text-blue-700"></h2>
-      <p id="alt-result-description" class="text-gray-700 mt-1"></p>
-      <p id="alt-result-phrase" class="text-gray-600 italic text-base mt-2"></p>
-      <div id="alt-result-guidance" class="text-left text-sm bg-gray-100 rounded-xl p-4 mt-4 space-y-2 text-gray-800">
-      </div>
-
-      <button id="close-alt-modal"
-        class="mt-6 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 cursor-pointer">
-        Cerrar
-      </button>
-    </div>
-  </div>
-
-  <!-- Modal de detalle -->
-  <div id="detalle-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
-    <div id="detalle-modal-content"
-      class="bg-white p-6 rounded-xl shadow-2xl max-w-2xl w-full opacity-0 scale-95 transition-all duration-500 max-h-[95vh] overflow-auto">
-
-      <h2 class="text-xl sm:text-2xl font-bold text-center text-blue-800 mb-4">Detalle de tus puntajes</h2>
-
-      <!-- Lista de puntajes -->
-      <div id="score-list" class="text-sm sm:text-base mb-6 text-gray-700"></div>
-
-      <!-- Gráfico -->
-      <div style="width: 400px; height: 400px;" class="mx-auto">
-        <canvas id="score-chart"></canvas>
-      </div>
-
-
-
-      <!-- Botón cerrar -->
-      <div class="mt-6 text-center">
-        <button id="close-detalle-modal"
-          class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition">Cerrar</button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Botones secundarios -->
-  <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-    <a href="home.html"
-      class="px-4 py-2 bg-white border border-blue-600 text-blue-600 font-semibold rounded hover:bg-blue-600 hover:text-white transition duration-300 text-center">
-      ← Volver a las instrucciones
-    </a>
-    <a href="perfiles.html"
-      class="px-4 py-2 bg-white border border-blue-600 text-blue-600 font-semibold rounded hover:bg-blue-600 hover:text-white transition duration-300 text-center">
-      Ver todos los perfiles
-    </a>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="./assets/js/main.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
-
+  </main>
 
 </body>
 
