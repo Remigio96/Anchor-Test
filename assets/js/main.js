@@ -345,6 +345,99 @@ prevBtn.onclick = () => {
 window.values = values;
 renderQuestion(current);
 
+document.getElementById("ver-detalle").addEventListener("click", () => {
+  const score = {};
+  questions.forEach((q, i) => {
+    score[q.ancla] = (score[q.ancla] || 0) + values[i];
+  });
+
+  const keys = Object.keys(score);
+  const labels = keys.map(ancla => resultados[ancla].icon); // solo íconos
+  const data = Object.values(score);
+  const colors = ['#60a5fa', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#f97316', '#22d3ee', '#a3e635'];
+
+  // Mostrar lista textual con nombre completo
+  //const listContainer = document.getElementById("score-list");
+  //listContainer.innerHTML = "";
+  //keys.forEach(key => {
+  //  listContainer.innerHTML += `<p class="mb-1"><strong>${resultados[key].titulo}:</strong> ${score[key]}/40</p>`;
+  //});
+
+  // Abrir modal y preparar gráfico
+  const detalleModal = document.getElementById("detalle-modal");
+  const detalleContent = document.getElementById("detalle-modal-content");
+  detalleModal.classList.remove("hidden");
+
+  setTimeout(() => {
+    detalleContent.classList.remove("opacity-0", "scale-95");
+    detalleContent.classList.add("opacity-100", "scale-100");
+
+    const ctx = document.getElementById("score-chart").getContext("2d");
+    if (window.scoreChart) window.scoreChart.destroy();
+
+    window.scoreChart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Puntaje por ancla',
+          data,
+          backgroundColor: 'rgba(59, 130, 246, 0.2)',
+          borderColor: '#3b82f6',
+          borderWidth: 2,
+          pointBackgroundColor: '#3b82f6'
+        }]
+      },
+      options: {
+        responsive: true,
+        animation: { duration: 1000 },
+        scales: {
+          r: {
+            beginAtZero: true,
+            max: 40,
+            ticks: {
+              stepSize: 10,
+              color: '#4b5563'
+            },
+            grid: {
+              color: '#d1d5db'
+            },
+            pointLabels: {
+              color: '#111827',
+              font: { size: 16, weight: '600' }
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: (context) => {
+                const index = context[0].dataIndex;
+                const key = keys[index]; // clave del perfil
+                return resultados[key].titulo; // muestra el nombre completo
+              },
+              label: (context) => `Puntaje: ${context.raw}/40`
+            }
+          }
+        }
+      }
+    });
+  }, 50);
+});
+
+
+
+// Botón para cerrar modal de detalle
+document.getElementById("close-detalle-modal").addEventListener("click", () => {
+  const detalleModal = document.getElementById("detalle-modal");
+  const detalleContent = document.getElementById("detalle-modal-content");
+  detalleModal.classList.add("hidden");
+  detalleContent.classList.remove("opacity-100", "scale-100");
+  detalleContent.classList.add("opacity-0", "scale-95");
+});
+
+
 document.getElementById("download-pdf").addEventListener("click", () => {
   const pdfElement = document.getElementById("pdf-content");
 
@@ -358,4 +451,5 @@ document.getElementById("download-pdf").addEventListener("click", () => {
 
   html2pdf().set(opt).from(pdfElement).save();
 });
+
 
