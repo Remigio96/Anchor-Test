@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfiles de Emprendedores</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+
+<body class="bg-gray-100 text-gray-800 min-h-screen p-6">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center">Perfiles de Emprendedores</h1>
+
+    <div class="text-center mb-6">
+      <a href="index.html"
+        class="px-4 py-2 bg-white border border-blue-600 text-blue-600 font-semibold rounded hover:bg-blue-600 hover:text-white transition duration-300 text-center">
+        ← Volver al test
+      </a>
+    </div>
+
+
+    <!-- Botones de selección -->
+    <div id="perfil-buttons" class="flex flex-wrap gap-3 mb-8 justify-center">
+      <button class="perfil-btn px-4 py-2 rounded bg-gray-200 hover:bg-blue-100" data-key="tecnica">Artesano</button>
+      <button class="perfil-btn px-4 py-2 rounded bg-gray-200 hover:bg-blue-100"
+        data-key="directiva">Visionario</button>
+      <button class="perfil-btn px-4 py-2 rounded bg-gray-200 hover:bg-blue-100" data-key="autonomia">Autónomo</button>
+      <button class="perfil-btn px-4 py-2 rounded bg-gray-200 hover:bg-blue-100" data-key="seguridad">Precavido</button>
+      <button class="perfil-btn px-4 py-2 rounded bg-gray-200 hover:bg-blue-100" data-key="servicio">Con
+        Propósito</button>
+      <button class="perfil-btn px-4 py-2 rounded bg-gray-200 hover:bg-blue-100" data-key="reto">Aventurero</button>
+      <button class="perfil-btn px-4 py-2 rounded bg-gray-200 hover:bg-blue-100" data-key="vida">Vida Plena</button>
+      <button class="perfil-btn px-4 py-2 rounded bg-gray-200 hover:bg-blue-100" data-key="creatividad">Creador</button>
+    </div>
+
+    <!-- Contenedor dinámico de perfiles -->
+    <div id="perfil-container" class="space-y-10 text-justify"></div>
+  </div>
+
+  <script src="./assets/js/perfiles.js"></script>
+</body>
+
+</html>
